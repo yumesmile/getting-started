@@ -4,6 +4,7 @@
 #include "azure_iot_mqtt.h"
 
 #include <ctype.h>
+#include <math.h>
 #include <string.h>
 
 #include "tx_api.h"
@@ -127,7 +128,7 @@ UINT tls_setup(NXD_MQTT_CLIENT* client,
     // Add a CA Certificate to our trusted store for verifying incoming server certificates
     status = nx_secure_x509_certificate_initialize(trusted_cert,
         (UCHAR*)azure_iot_root_ca,
-        azure_iot_root_ca_len,
+        (USHORT)azure_iot_root_ca_len,
         NX_NULL,
         0,
         NX_NULL,
@@ -191,10 +192,10 @@ static UINT mqtt_publish_float(AZURE_IOT_MQTT* azure_iot_mqtt, CHAR* topic, CHAR
 {
     CHAR mqtt_message[100];
 
-    int decvalue  = value;
-    int fracvalue = abs(100 * (value - (long)value));
+    float intvalue;
+    float fracvalue = 100 * fabsf(modff(value, &intvalue));
 
-    snprintf(mqtt_message, sizeof(mqtt_message), "{\"%s\":%d.%2d}", label, decvalue, fracvalue);
+    snprintf(mqtt_message, sizeof(mqtt_message), "{\"%s\":%d.%2d}", label, (int)intvalue, (int)fracvalue);
     printf("Sending message %s\r\n", mqtt_message);
 
     return mqtt_publish(azure_iot_mqtt, topic, mqtt_message);
@@ -224,7 +225,7 @@ static VOID process_direct_method(AZURE_IOT_MQTT* azure_iot_mqtt, CHAR* topic, C
         return;
     }
 
-    strncpy(direct_method_name, location, find - location);
+    strncpy(direct_method_name, location, (size_t)(find - location));
 
     location = find;
 
@@ -322,7 +323,7 @@ static VOID process_device_twin_desired_prop_update(AZURE_IOT_MQTT* azure_iot_mq
         return;
     }
 
-    azure_iot_mqtt->desired_property_version = atoi(location + 9);
+    azure_iot_mqtt->desired_property_version = strtoul(location + 9, NULL, 10);
 
     azure_iot_mqtt->cb_ptr_mqtt_device_twin_desired_prop_callback(azure_iot_mqtt, message);
 }

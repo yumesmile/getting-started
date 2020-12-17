@@ -18,8 +18,10 @@ if(NOT CMAKE_TOOLCHAIN_FILE)
     set(CMAKE_TOOLCHAIN_FILE "${GSG_BASE_DIR}/cmake/arm-gcc-cortex-m4.cmake")
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${GSG_BASE_DIR}/cmake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH 
+    ${GSG_BASE_DIR}/cmake
+    ${CMAKE_SOURCE_DIR}/cmake
+)
 
 include(utilities)
 

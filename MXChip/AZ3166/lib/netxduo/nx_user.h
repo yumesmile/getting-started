@@ -22,21 +22,17 @@
 
 #define NX_SNTP_CLIENT_MIN_SERVER_STRATUM 3
 
-extern UINT nx_rand16( void );
-#define NX_RAND                         nx_rand16
-
-#define NX_ASSERT_FAIL for(;;){}
+extern UINT nx_rand16(void);
+#define NX_RAND nx_rand16
 
 /* Symbols for Wiced.  */
 
 /* This define specifies the size of the physical packet header. The default value is 16 (based on
    a typical 16-byte Ethernet header).  */
-#define NX_PHYSICAL_HEADER              (14 + 12 + 18)
+#define NX_PHYSICAL_HEADER (14 + 12 + 18)
 
 /* This define specifies the size of the physical packet trailer and is typically used to reserve storage
    for things like Ethernet CRCs, etc.  */
-#define NX_PHYSICAL_TRAILER             (0)
-
-#define NX_LINK_PTP_SEND                51      /* Precision Time Protocol */
+#define NX_PHYSICAL_TRAILER (0)
 
 #endif /* NX_USER_H */

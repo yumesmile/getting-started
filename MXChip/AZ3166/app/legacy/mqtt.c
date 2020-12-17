@@ -25,7 +25,7 @@
 static AZURE_IOT_MQTT azure_iot_mqtt;
 static TX_EVENT_FLAGS_GROUP azure_iot_flags;
 
-static INT telemetry_interval = 10;
+static ULONG telemetry_interval = 10;
 
 static void set_led_state(bool level)
 {
@@ -80,7 +80,7 @@ static void mqtt_device_twin_desired_prop(AZURE_IOT_MQTT* iot_mqtt, CHAR* messag
     jsmn_init(&parser);
     token_count = jsmn_parse(&parser, message, strlen(message), tokens, 64);
 
-    if (findJsonInt(message, tokens, token_count, TELEMETRY_INTERVAL_PROPERTY, &telemetry_interval))
+    if (findJsonULong(message, tokens, token_count, TELEMETRY_INTERVAL_PROPERTY, &telemetry_interval))
     {
         // Set a telemetry event so we pick up the change immediately
         tx_event_flags_set(&azure_iot_flags, TELEMETRY_INTERVAL_EVENT, TX_OR);
@@ -99,7 +99,7 @@ static void mqtt_device_twin_prop(AZURE_IOT_MQTT* iot_mqtt, CHAR* message)
     jsmn_init(&parser);
     token_count = jsmn_parse(&parser, message, strlen(message), tokens, 64);
 
-    if (findJsonInt(message, tokens, token_count, TELEMETRY_INTERVAL_PROPERTY, &telemetry_interval))
+    if (findJsonULong(message, tokens, token_count, TELEMETRY_INTERVAL_PROPERTY, &telemetry_interval))
     {
         // Set a telemetry event so we pick up the change immediately
         tx_event_flags_set(&azure_iot_flags, TELEMETRY_INTERVAL_EVENT, TX_OR);

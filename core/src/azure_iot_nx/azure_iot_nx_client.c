@@ -3,6 +3,7 @@
 
 #include "azure_iot_nx_client.h"
 
+#include <math.h>
 #include <stdio.h>
 
 #include "azure_iot_cert.h"
@@ -65,7 +66,7 @@ static VOID process_direct_method(AZURE_IOT_NX_CONTEXT* nx_context)
     VOID* context;
     USHORT context_length;
     UCHAR* payload;
-    USHORT payload_length;
+    INT payload_length;
 
     if ((status = nx_azure_iot_hub_client_direct_method_message_receive(&nx_context->iothub_client,
              &method_name,
@@ -88,7 +89,7 @@ static VOID process_direct_method(AZURE_IOT_NX_CONTEXT* nx_context)
     if (nx_context->direct_method_cb)
     {
         nx_context->direct_method_cb(
-            nx_context, method_name, method_name_length, payload, payload_length, context, context_length);
+            nx_context, method_name, method_name_length, payload, (USHORT)payload_length, context, context_length);
     }
 
     // Release the received packet, as ownership was passed to the application
@@ -509,8 +510,7 @@ UINT azure_iot_nx_client_hub_create(AZURE_IOT_NX_CONTEXT* context, CHAR* iot_hub
     return azure_iot_nx_client_hub_create_internal(context);
 }
 
-UINT azure_iot_nx_client_dps_create(
-    AZURE_IOT_NX_CONTEXT* context, CHAR* dps_id_scope, CHAR* dps_registration_id)
+UINT azure_iot_nx_client_dps_create(AZURE_IOT_NX_CONTEXT* context, CHAR* dps_id_scope, CHAR* dps_registration_id)
 {
     UINT status;
     CHAR payload[DPS_PAYLOAD_SIZE];
@@ -727,10 +727,11 @@ UINT azure_iot_nx_client_publish_float_telemetry(AZURE_IOT_NX_CONTEXT* context, 
     CHAR buffer[PUBLISH_BUFFER_SIZE];
     NX_PACKET* packet_ptr;
 
-    int intvalue  = value;
-    int fracvalue = abs(100 * (value - (long)value));
+    float intvalue;
+    float fracvalue = 100 * fabsf(modff(value, &intvalue));
 
-    if (snprintf(buffer, PUBLISH_BUFFER_SIZE, "{\"%s\":%d.%2d}", key, intvalue, fracvalue) > PUBLISH_BUFFER_SIZE - 1)
+    if (snprintf(buffer, PUBLISH_BUFFER_SIZE, "{\"%s\":%d.%2d}", key, (int)intvalue, (int)fracvalue) >
+        PUBLISH_BUFFER_SIZE - 1)
     {
         printf("ERROR: insufficient buffer size to publish float telemetry\r\n");
         return NX_SIZE_ERROR;
@@ -818,10 +819,11 @@ UINT azure_iot_nx_client_publish_float_property(AZURE_IOT_NX_CONTEXT* context, C
     ULONG version;
     CHAR buffer[PUBLISH_BUFFER_SIZE];
 
-    int intvalue  = value;
-    int fracvalue = abs(100 * (value - (long)value));
+    float intvalue;
+    float fracvalue = 100 * fabsf(modff(value, &intvalue));
 
-    if (snprintf(buffer, PUBLISH_BUFFER_SIZE, "{\"%s\":%d.%2d}", key, intvalue, fracvalue) > PUBLISH_BUFFER_SIZE - 1)
+    if (snprintf(buffer, PUBLISH_BUFFER_SIZE, "{\"%s\":%d.%2d}", key, (int)intvalue, (int)fracvalue) >
+        PUBLISH_BUFFER_SIZE - 1)
     {
         printf("ERROR: insufficient buffer size to publish float property\r\n");
         return NX_SIZE_ERROR;

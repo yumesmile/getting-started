@@ -18,14 +18,9 @@ set(SOURCES
     json_utils.c
     newlib_nano.c
     sntp_client.c
-)
 
-# Allow to disable the common networking component
-if(NOT DEFINED DISABLE_COMMON_NETWORK) 
-    list(APPEND SOURCES
-        networking.c
-    )
-endif()
+    $<$<NOT:$<BOOL:${DISABLE_COMMON_NETWORK}>>:networking.c>
+)
 
 add_library(${TARGET} OBJECT
     ${SOURCES}

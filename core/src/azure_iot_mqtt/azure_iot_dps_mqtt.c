@@ -36,7 +36,7 @@ static VOID process_retry(AZURE_IOT_MQTT* azure_iot_mqtt, CHAR* topic, CHAR* mes
     jsmntok_t tokens[12];
     INT token_count;
 
-    INT retry_interval;
+    ULONG retry_interval;
     CHAR mqtt_publish_topic[256];
 
     CHAR* find = strstr(topic, "retry-after=");
@@ -47,7 +47,7 @@ static VOID process_retry(AZURE_IOT_MQTT* azure_iot_mqtt, CHAR* topic, CHAR* mes
     }
 
     // extract retry interval
-    retry_interval = atoi(find + 12);
+    retry_interval = strtoul(find + 12, NULL, 10);
 
     jsmn_init(&parser);
 

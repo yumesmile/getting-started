@@ -53,7 +53,7 @@ static bool base64_encode(char* src, size_t src_len, char* out)
     return true;
 }
 
-static size_t base64_decode(char* src, size_t len, char* out)
+static int base64_decode(char* src, size_t len, char* out)
 {
     unsigned char* o = (unsigned char*)out;
     unsigned char* p = (unsigned char*)src;
@@ -317,20 +317,20 @@ static size_t base64_decode(char* src, size_t len, char* out)
 
     while (len > 4)
     {
-        *o++ = b[p[0]] << 2 | b[p[1]] >> 4;
-        *o++ = b[p[1]] << 4 | b[p[2]] >> 2;
-        *o++ = b[p[2]] << 6 | b[p[3]];
+        *o++ = (unsigned char)(b[p[0]] << 2 | b[p[1]] >> 4);
+        *o++ = (unsigned char)(b[p[1]] << 4 | b[p[2]] >> 2);
+        *o++ = (unsigned char)(b[p[2]] << 6 | b[p[3]]);
 
         p += 4;
         len -= 4;
     }
 
     if (len > 1)
-        *o++ = b[p[0]] << 2 | b[p[1]] >> 4;
+        *o++ = (unsigned char)(b[p[0]] << 2 | b[p[1]] >> 4);
     if (len > 2)
-        *o++ = b[p[1]] << 4 | b[p[2]] >> 2;
+        *o++ = (unsigned char)(b[p[1]] << 4 | b[p[2]] >> 2);
     if (len > 3)
-        *o++ = b[p[2]] << 6 | b[p[3]];
+        *o++ = (unsigned char)(b[p[2]] << 6 | b[p[3]]);
 
     *o++ = 0;
 
@@ -382,7 +382,7 @@ bool create_sas_token(char* key,
 {
     char buffer[128];
     char key_binary[96];
-    int key_binary_size;
+    size_t key_binary_size;
     char hash[32];
     char encoded_hash[44 + 1];
 
@@ -401,9 +401,9 @@ bool create_sas_token(char* key,
 
     // Create the output SAS token
     output +=
-        snprintf(output, output_end - output, "SharedAccessSignature sr=%s%%2Fdevices%%2F%s&sig=", hostname, device_id);
+        snprintf(output, (size_t)(output_end - output), "SharedAccessSignature sr=%s%%2Fdevices%%2F%s&sig=", hostname, device_id);
     output += url_encode(output, encoded_hash);
-    output += snprintf(output, output_end - output, "&se=%lu", valid_until);
+    output += snprintf(output, (size_t)(output_end - output), "&se=%lu", valid_until);
 
     if ((output_end - output) < 2)
     {
@@ -423,7 +423,7 @@ bool create_dps_sas_token(char* key,
 {
     char buffer[128];
     char key_binary[96];
-    int key_binary_size;
+    size_t key_binary_size;
     char hash[32];
     char encoded_hash[44 + 1];
 
@@ -442,12 +442,12 @@ bool create_dps_sas_token(char* key,
 
     // Create the output SAS token
     output += snprintf(output,
-        output_end - output,
+        (size_t)(output_end - output),
         "SharedAccessSignature sr=%s%%2Fregistrations%%2F%s&sig=",
         id_scope,
         registration_id);
     output += url_encode(output, encoded_hash);
-    output += snprintf(output, output_end - output, "&se=%lu&skn=registration", valid_until);
+    output += snprintf(output, (size_t)(output_end - output), "&se=%lu&skn=registration", valid_until);
 
     if ((output_end - output) < 2)
     {

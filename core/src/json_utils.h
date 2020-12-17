@@ -9,6 +9,7 @@
 #include "jsmn.h"
 
 bool findJsonInt(const char* json, jsmntok_t* tokens, int tokens_count, const char* s, int* value);
+bool findJsonULong(const char* json, jsmntok_t* tokens, int tokens_count, const char* s, unsigned long* value);
 bool findJsonString(const char* json, jsmntok_t* tokens, int tokens_count, const char* s, char* value);
 
 #endif

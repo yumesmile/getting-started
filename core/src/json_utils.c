@@ -14,9 +14,28 @@ bool findJsonInt(const char* json, jsmntok_t* tokens, int tokens_count, const ch
         if (tokens[i].type == JSMN_STRING && tokens[i + 1].type == JSMN_PRIMITIVE)
         {
             if (((int)strlen(s) == tokens[i].end - tokens[i].start) &&
-                (strncmp(json + tokens[i].start, s, tokens[i].end - tokens[i].start) == 0))
+                (strncmp(json + tokens[i].start, s, (size_t)(tokens[i].end - tokens[i].start)) == 0))
             {
-                *value = atoi(json + tokens[i + 1].start);
+                *value = strtoul(json + tokens[i + 1].start, NULL, 10);
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool findJsonULong(const char* json, jsmntok_t* tokens, int tokens_count, const char* s, unsigned long* value)
+{
+    for (int i = 0; i < tokens_count - 1; i++)
+    {
+        if (tokens[i].type == JSMN_STRING && tokens[i + 1].type == JSMN_PRIMITIVE)
+        {
+            if (((int)strlen(s) == tokens[i].end - tokens[i].start) &&
+                (strncmp(json + tokens[i].start, s, (size_t)(tokens[i].end - tokens[i].start)) == 0))
+            {
+                *value = strtoul(json + tokens[i + 1].start, NULL, 10);
 
                 return true;
             }
@@ -28,16 +47,16 @@ bool findJsonInt(const char* json, jsmntok_t* tokens, int tokens_count, const ch
 
 bool findJsonString(const char* json, jsmntok_t* tokens, int tokens_count, const char* s, char* value)
 {
-    int key_len;
-    int value_len;
+    size_t key_len;
+    size_t value_len;
     for (int i = 0; i < tokens_count - 1; i++)
     {
         if (tokens[i].type == JSMN_STRING && tokens[i + 1].type == JSMN_STRING)
         {
-            key_len = tokens[i].end - tokens[i].start;
-            if (((int)strlen(s) == key_len) && (strncmp(json + tokens[i].start, s, key_len) == 0))
+            key_len = (size_t)(tokens[i].end - tokens[i].start);
+            if ((strlen(s) == key_len) && (strncmp(json + tokens[i].start, s, key_len) == 0))
             {
-                value_len = tokens[i + 1].end - tokens[i + 1].start;
+                value_len = (size_t)(tokens[i + 1].end - tokens[i + 1].start);
                 strncpy(value, json + tokens[i + 1].start, value_len);
                 value[value_len] = 0;
 
