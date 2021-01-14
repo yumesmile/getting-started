@@ -77,57 +77,37 @@ To install the tools:
     cmake --version
     ```
 
-### Create an IoT hub
+### Create Azure IoT resources through IoT Central portal
 
-You can use Azure CLI to create an IoT hub that handles events and messaging for your device.
+You can use Azure IoTCentral to create IoT resources which handles events and messaging for your device.
 
-To create an IoT hub:
+To create a new application:
+1. From [IoT Central portal](https://apps.azureiotcentral.com/), click "My apps" on the side navigation menu.
+1. Start "+ New application".
+1. Select "Custom apps".
+1. Fill out the required fields and click "Create".
+1. You will be redirected to the new application dashboard after it is successfully created.
 
-1. From your console window, run the [az group create](https://docs.microsoft.com/cli/azure/group?view=azure-cli-latest#az-group-create) command to create a resource group. The following command creates a resource group named *MyResourceGroup* in the *centralus* region.
-
-    > Note: You can optionally set an alternate `location`. To see available locations, run [az account list-locations](https://docs.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-list-locations). For this tutorial we recommend using `centralus` as in the example CLI command. The IoT Plug and Play feature that you use later in the tutorial, is currently only available in three regions, including `centralus`.
-
-    ```shell
-    az group create --name MyResourceGroup --location centralus
-    ```
-
-1. Run the [az iot hub create](https://docs.microsoft.com/cli/azure/iot/hub?view=azure-cli-latest#az-iot-hub-create) command to create an IoT hub. It might take a few minutes to create an IoT hub.
-
-    *YourIotHubName*. Replace this placeholder below with the name you chose for your IoT hub. An IoT hub name must be globally unique in Azure. This placeholder is used in the rest of this tutorial to represent your unique IoT hub name.
-
-    ```shell
-    az iot hub create --resource-group MyResourceGroup --name {YourIoTHubName}
-    ```
-
-1. After the IoT hub is created, view the JSON output in the console, and copy the `hostName` value to use in a later step. The `hostName` value looks like the following example:
-
-    `{Your IoT hub name}.azure-devices.net`
 
 ### Register a device
 
-In this section, you create a new device instance and register it with the IoT hub you created. You will use the connection information for the newly registered device to securely connect your physical device in a later section.
+In this section, you create a new device instance in the IoT Central application dashboard which was created. You will use the connection information for the newly registered device to securely connect your physical device in a later section.
 
 To register a device:
+1. From the application dashboard, click "Devices" on the side navigation menu.
+1. Start "+ New".
+1. Fill in the Create a new device form with the desired device name and ID.  Device template could be leave as "unassigned".  Then click "Create".
+1. The newly created device should appear in the "All devices" list.  Click on the device name to show details.
+1. Click "Connect" in the top right menu bar to show the connection information for use in the physical device in the next section.
 
-1. In your console, run the [az iot hub device-identity create](https://docs.microsoft.com/cli/azure/ext/azure-cli-iot-ext/iot/hub/device-identity?view=azure-cli-latest#ext-azure-cli-iot-ext-az-iot-hub-device-identity-create) command. This creates the simulated device identity.
-
-    *YourIotHubName*. Replace this placeholder below with the name you chose for your IoT hub.
-
-    *MySTMDevice*. You can use this name directly for the device in CLI commands in this tutorial. Optionally, use a different name.
-
-    ```shell
-    az iot hub device-identity create --device-id MySTMDevice --hub-name {YourIoTHubName}
-    ```
-
-1. After the device is created, view the JSON output in the console, and copy the `deviceId` and `primaryKey` values to use in a later step.
 
 ## Prepare the device
 
-Confirm that you have the copied the following values from the JSON output from the previous sections:
+Confirm that you have the noted the connection information from the Azure IoT Central portal from the previous section:
 
-> * `hostName`
-> * `deviceId`
-> * `primaryKey`
+> * `ID scope`
+> * `Device ID`
+> * `Primary key`
 
 
 To connect the STM DevKit to Azure, you'll modify a configuration file for Wi-Fi and Azure IoT settings, rebuild the image, and flash the image to the device.
@@ -149,9 +129,9 @@ To connect the STM DevKit to Azure, you'll modify a configuration file for Wi-Fi
 
     |Constant name|Value|
     |-------------|-----|
-    |`IOT_HUB_HOSTNAME` |{*Your Iot hub hostName value*}|
-    |`IOT_HUB_DEVICE_ID` |{*Your deviceID value*}|
-    |`IOT_DEVICE_SAS_KEY` |{*Your primaryKey value*}|
+    |`IOT_DPS_ID_SCOPE` |{*Your ID scope value*}|
+    |`IOT_DPS_REGISTRATION_ID` |{*Your Device ID value*}|
+    |`IOT_DEVICE_SAS_KEY` |{*Your Primary key value*}|
 
 1. Save and close the file.
 
@@ -246,128 +226,31 @@ You can use the **Termite** utility to monitor communication and confirm that yo
 
 Keep Termite open to monitor device output in the following steps.
 
-## View device properties
+## View device data
+> **Note**: Check the device's "Device template" is updated.  If unassigned, select the device and "Migrate" to the "Getting Started Guide" template in order to see the graphic visual data representation.
 
-> **Note**: From this point in the tutorial, you can continue these steps, or you can optionally follow the same steps using the IoT Plug and Play preview. IoT Plug and Play provides a standard device model that lets a compatible device advertise its capabilities to an application. This approach simplifies the process of adding, configuring, and interacting with devices. To try IoT Plug and Play with your device, see [Using IoT Plug and Play with Azure RTOS](../../docs/plugandplay.md).
+With Azure IoT Central, you can view the flow of telemetry from your device to the cloud. 
 
-You can use the Azure IoT Explorer to view and manage the properties of your devices. In the following steps, you'll add a connection to your IoT hub in IoT Explorer. With the connection, you can view properties for devices associated with the IoT hub. Optionally, you can perform the same task using Azure CLI.
+To view telemetry in Azure IoT Central portal:
 
-To add a connection to your IoT hub:
+1. From the application dashboard, click "Devices" on the side navigation menu.
+1. Select the device from the device list.
+1. View the telemetry as the device sends messages to the cloud in the **Overview** tab.
 
-1. In your console window, run the [az iot hub show-connection-string](https://docs.microsoft.com/en-us/cli/azure/iot/hub?view=azure-cli-latest#az-iot-hub-show-connection-string) command to get the connection string for your IoT hub.
-
-    ```shell
-    az iot hub show-connection-string --name {YourIoTHubName}
-    ```
-
-1. Copy the connection string without the surrounding quotation characters.
-1. In Azure IoT Explorer, select **IoT hubs > Add connection**.
-1. Paste the connection string into the **Connection string** box.
-1. Select **Save**.
-
-    ![Azure IoT Explorer connection string](media/azure-iot-explorer-create-connection.png)
-
-If the connection succeeds, the Azure IoT Explorer switches to a **Devices** view and lists your device.
-
-To view device properties using Azure IoT Explorer:
-
-1. Select the link for your device identity. IoT Explorer displays details for the device.
-
-    ![Azure IoT Explorer device identity](media/azure-iot-explorer-device-identity.png)
-
-1. Inspect the properties for your device in the **Device identity** panel.
-
-To use Azure CLI to view device properties:
-
-1. Run the [az iot hub device-identity show](https://docs.microsoft.com/en-us/cli/azure/ext/azure-iot/iot/hub/device-identity?view=azure-cli-latest#ext-azure-iot-az-iot-hub-device-identity-show) command.
-
-    ```shell
-    az iot hub device-identity show --device-id MySTMDevice --hub-name {YourIoTHubName}
-    ```
-
-1. Inspect the properties for your device in the console output.
-
-## View telemetry
-
-With Azure IoT Explorer, you can view the flow of telemetry from your device to the cloud. Optionally, you can perform the same task using Azure CLI.
-
-To view telemetry in Azure IoT Explorer:
-
-1. In IoT Explorer select **Telemetry**. Confirm that **Use built-in event hub** is set to *Yes*.
-1. Select **Start**.
-1. View the telemetry as the device sends messages to the cloud.
-
-    ![Azure IoT Explorer device telemetry](media/azure-iot-explorer-device-telemetry.png)
+    ![Azure IoT Central device telemetry](media/azure-iot-central-device-telemetry.png)
 
     Note: You can also monitor telemetry from the device by using the Termite terminal.
 
-1. Select **Stop** to end receiving events.
+You can also use Azure IoT Central to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off. 
 
-To use Azure CLI to view device telemetry:
+To call a method in Azure IoT Central portal:
 
-1. In your CLI console, run the [az iot hub monitor-events](https://docs.microsoft.com/en-us/cli/azure/ext/azure-iot/iot/hub?view=azure-cli-latest#ext-azure-iot-az-iot-hub-monitor-events) command. Use the names that you created previously in Azure IoT for your device and IoT hub.
+1. Select **Command** tab from the device page.
+1. Select **State** and click **Run**.  The LED light should turn on.
 
-    ```shell
-    az iot hub monitor-events --device-id MySTMDevice --hub-name {YourIoTHubName}
-    ```
+    ![Azure IoT Central invoke method](media/azure-iot-central-invoke-method.png)
+1. Unselect **State** and click **Run**. The LED light should turn off.
 
-1. View the JSON output in the console.
-
-    ```json
-    {
-        "event": {
-            "origin": "MySTMDevice",
-            "payload": "{\"temperature\": 25}"
-        }
-    }
-    ```
-
-1. Select CTRL+C to end monitoring.
-
-## Call a direct method on the device
-
-You can also use Azure IoT Explorer to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off. Optionally, you can perform the same task using Azure CLI.
-
-To call a method in Azure IoT Explorer:
-
-1. Select **Direct method**.
-1. In the **Direct method** panel add the following values for the method name and payload. The payload value *true* indicates to turn the LED on.
-    * **Method name**: `setLedState`
-    * **Payload**: `true`
-1. Select **Invoke method**. The LED light should turn on.
-
-    ![Azure IoT Explorer invoke method](media/azure-iot-explorer-invoke-method.png)
-1. Change **Payload** to *false*, and again select **Invoke method**. The LED light should turn off.
-1. Optionally, you can view the output in Termite to monitor the status of the methods.
-
-To use Azure CLI to call a method:
-
-1. Run the [az iot hub invoke-device-method](https://docs.microsoft.com/en-us/cli/azure/ext/azure-iot/iot/hub?view=azure-cli-latest#ext-azure-iot-az-iot-hub-invoke-device-method) command, and specify the method name and payload. For this method, setting `method-payload` to `true` turns the LED on, and setting it to `false` turns it off.
-
-    <!-- Inline code tag and CSS to wrap long code lines. -->
-    <code style="white-space : pre-wrap !important;">
-    az iot hub invoke-device-method --device-id MySTMDevice --method-name setLedState --method-payload true --hub-name {YourIoTHubName}
-    </code>
-
-    The CLI console shows the status of your method call on the device, where `204` indicates success.
-
-    ```json
-    {
-      "payload": {},
-      "status": 204
-    }
-    ```
-
-1. Check your device to confirm the LED state.
-
-1. View the Termite terminal to confirm the output messages:
-
-    ```output
-    Received direct method call: setLedState
-        Payload: true
-    LED is turned ON
-    Device twin property sent: {"ledState":true}
-    ```
 
 ## Debugging
 
@@ -375,28 +258,14 @@ For debugging the application, see [Debugging with Visual Studio Code](../../doc
 
 ## Clean up resources
 
-If you no longer need the Azure resources created in this tutorial, you can use the Azure CLI to delete the resource group and all the resources you created for this tutorial. Optionally, you can use Azure IoT Explorer to delete individual resources including devices and IoT hubs.
+If you no longer need the Azure resources created in this tutorial, you can delete them from the Azure IoT Central portal.
 
 If you continue to another tutorial in this Getting Started guide, you can keep the resources you've already created and reuse them.
 
-> **Important**: Deleting a resource group is irreversible. The resource group and all the resources contained in it are permanently deleted. Make sure that you do not accidentally delete the wrong resource group or resources.
-
-To delete a resource group by name:
-1. Run the [az group delete](https://docs.microsoft.com/cli/azure/group?view=azure-cli-latest#az-group-delete) command. This removes the resource group, the IoT Hub, and the device registration you created.
-
-    ```shell
-    az group delete --name MyResourceGroup
-    ```
-
-1. Run the [az group list](https://docs.microsoft.com/cli/azure/group?view=azure-cli-latest#az-group-list) command to confirm the resource group is deleted.  
-
-    ```shell
-    az group list
-    ```
 
 ## Next Steps
 
-In this tutorial you built a custom image that contains Azure RTOS sample code, and then flashed the image to the STM DevKit device. You also used the Azure CLI to create Azure resources, connect the STM DevKit securely to Azure, view telemetry, and send messages.
+In this tutorial you built a custom image that contains Azure RTOS sample code, and then flashed the image to the STM DevKit device. You also used the Azure IoT Central portal to create Azure resources, connect the STM DevKit securely to Azure, view telemetry, and send messages.
 
 * For device developers, the suggested next step is to see the other tutorials in the series [Getting started with Azure RTOS](https://go.microsoft.com/fwlink/p/?linkid=2129824).
 * If you have issues getting your device to initialize or connect after following the steps in this guide, see [Troubleshooting](../../docs/troubleshooting.md).
