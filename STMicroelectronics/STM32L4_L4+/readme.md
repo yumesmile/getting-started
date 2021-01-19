@@ -235,6 +235,8 @@ Keep Termite open to monitor device output in the following steps.
 
 > **Note**: Check the device's "Device template" is updated.  If unassigned, select the device and "Migrate" to the "Getting Started Guide" template in order to see the graphic visual data representation.
 
+**TODO** Another option instead of the migrate, is to restart the device again which will then successfully assign the correct device template. This appears to be a function of Central being upable to assign a device to a device template that has only just been added to the central instance.
+
 **TODO** The "About" tab shows device information, cover that here.
 
 ## View Telemetry
