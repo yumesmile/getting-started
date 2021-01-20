@@ -55,7 +55,7 @@ git clone --recursive https://github.com/azure-rtos/getting-started.git
 
 The cloned repo contains a setup script that installs and configures the required tools. If you installed these tools in another tutorial in the getting started guide, you don't need to do it again.
 
-> Note: The setup script installs the following tools used in this guide:
+> Note: The setup script installs the following tools:
 > * [CMake](https://cmake.org): Build
 > * [ARM GCC](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm): Compile
 > * [Termite](https://www.compuphase.com/software_termite.htm): Monitor serial port output for connected devices
@@ -78,7 +78,7 @@ To install the tools:
 
 ### Create the IoT Central Application
 
-Azure IoT Central is used to both manage and interact with your device.
+Azure IoT Central is used to both manage and monitor with your device.
 
 To create a new application:
 1. From [Azure IoT Central portal](https://apps.azureiotcentral.com/), click "My apps" on the side navigation menu.
@@ -86,20 +86,26 @@ To create a new application:
 1. Select "Custom apps".
 1. Add an application and a URL.
 1. Choose the "Free" Pricing plan to activate a 7-day trial.
-1. Click "Create".
-1. Once the application has been provisioned, you will automatically be redirected to the new application dashboard.
 
-**TODO** Add a screenshot. Also if they already have a free instance, we might need to direct them to use that instead, or deploy a paid instance which required an Azure subscription
+    ![IoT Central create an application](media/iotcentralcreate-custom.png)
+
+1. Click "Create".
+1. After IoT Central provisions the application, it redirects you automatically to the new application dashboard.
+
+You could reuse any exisiting instance of application which you have created previously.  You could optionally create applications using a standard plan.  Learn more about the free and standard pricing plans on the [IoT Central pricing page](https://azure.microsoft.com/en-us/pricing/details/iot-central/).
 
 ### Create a new device
 
-In this section, you create a new device via the IoT Central application dashboard provisioned in the previous steps. You will use the connection information for the newly created device to securely connect your physical device in a later section.
+In this section, you use the IoT Central application dashboard to create a new device. You will use the connection information for the newly created device to securely connect your physical device in a later section.
 
 To create a device:
 1. From the application dashboard, click "Devices" on the side navigation menu.
 1. Start "+ New" to bring up the "Create a new device" window.
 1. Leave Device template as "Unassigned".
 1. Fill in the desired Device Name and Device ID.
+
+    ![IoT Central create a device](media/iotcentralcreate-device.png)
+
 1. Select the "Create" button.
 1. The newly created device should appear in the "All devices" list.  Click on the device name to show details.
 1. Click "Connect" in the top right menu bar to show the connection information for use in the physical device in the next section.
@@ -108,7 +114,7 @@ To create a device:
 
 ## Prepare the device
 
-Confirm that you have the noted the connection information from the Azure IoT Central portal from the previous section:
+Note the connection values for the following connection string parameters displayed in the IoT Central portal. You'll add these values to a configuration file in the next step:
 
 > * `ID scope`
 > * `Device ID`
@@ -241,28 +247,28 @@ Keep Termite open to monitor device output in the following steps.
 
 ## View Telemetry
 
-With Azure IoT Central, you can view the flow of telemetry from your device to the cloud.
+With IoT Central, you can view the flow of telemetry from your device to the cloud.
 
-To view telemetry in Azure IoT Central portal:
+To view telemetry in IoT Central portal:
 
 1. From the application dashboard, click "Devices" on the side navigation menu.
 1. Select the device from the device list.
 1. View the telemetry as the device sends messages to the cloud in the **Overview** tab.
 
-    ![Azure IoT Central device telemetry](media/azure-iot-central-device-telemetry.png)
+    ![IoT Central device telemetry](media/azure-iot-central-device-telemetry.png)
 
     Note: You can also monitor telemetry from the device by using the Termite terminal.
 
 ## Call a direct method on the device
 
-You can also use Azure IoT Central to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off. 
+You can also use IoT Central to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off. 
 
-To call a method in Azure IoT Central portal:
+To call a method in IoT Central portal:
 
 1. Select **Command** tab from the device page.
 1. Select **State** and click **Run**.  The LED light should turn on.
 
-    ![Azure IoT Central invoke method](media/azure-iot-central-invoke-method.png)
+    ![IoT Central invoke method](media/azure-iot-central-invoke-method.png)
 1. Unselect **State** and click **Run**. The LED light should turn off.
 
 
@@ -272,14 +278,14 @@ For debugging the application, see [Debugging with Visual Studio Code](../../doc
 
 ## Clean up resources
 
-If you no longer need the Azure resources created in this tutorial, you can delete them from the Azure IoT Central portal.
+If you no longer need the Azure resources created in this tutorial, you can delete them from the IoT Central portal.
 
 If you continue to another tutorial in this Getting Started guide, you can keep the resources you've already created and reuse them.
 
 
 ## Next Steps
 
-In this tutorial you built a custom image that contains Azure RTOS sample code, and then flashed the image to the STM DevKit device. You also used the Azure IoT Central portal to create Azure resources, connect the STM DevKit securely to Azure, view telemetry, and send messages.
+In this tutorial you built a custom image that contains Azure RTOS sample code, and then flashed the image to the STM DevKit device. You also used the IoT Central portal to create Azure resources, connect the STM DevKit securely to Azure, view telemetry, and send messages.
 
 * For device developers, the suggested next step is to see the other tutorials in the series [Getting started with Azure RTOS](https://go.microsoft.com/fwlink/p/?linkid=2129824).
 * If you have issues getting your device to initialize or connect after following the steps in this guide, see [Troubleshooting](../../docs/troubleshooting.md).
