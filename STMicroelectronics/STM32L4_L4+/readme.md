@@ -26,7 +26,6 @@ You will complete the following tasks:
 ## Prerequisites
 
 * A PC running Microsoft Windows 10
-* If you don't have an Azure subscription, [create one for free](https://azure.microsoft.com/free/?WT.mc_id=A261C142F) before you begin.
 * [Git](https://git-scm.com/downloads) for cloning the repository
 * Hardware
 
@@ -77,48 +76,47 @@ To install the tools:
 
 ### Create the IoT Central Application
 
-There are a few ways to mange and monitor your devices.  Azure IoT Central is used here because it provide the easiest way to connects your IoT devices to the cloud and offers centralized management to reconfigure and update your devices.
+There are several ways to connect devices to Azure IoT. In this section, you learn how to connect a device by using Azure IoT Central. IoT Central is an IoT application platform that reduces the cost and complexity of creating and managing IoT solutions.
 
 To create a new application:
-1. From [Azure IoT Central portal](https://apps.azureiotcentral.com/), click "My apps" on the side navigation menu.
-1. Start "+ New application".
-1. Select "Custom apps".
-1. Add an application and a URL.
-1. Choose the "Free" Pricing plan to activate a 7-day trial.
+1. From [Azure IoT Central portal](https://apps.azureiotcentral.com/), select **My apps** on the side navigation menu.
+1. Select **+ New application**.
+1. Select **Custom apps**.
+1. Add Application Name and a URL.
+1. Choose the **Free** Pricing plan to activate a 7-day trial.
 
     ![IoT Central create an application](media/iotcentralcreate-custom.png)
 
-1. Click "Create".
+1. Select **Create**.
 1. After IoT Central provisions the application, it redirects you automatically to the new application dashboard.
 
-If you have an existing IoT Central application, you can use it to complete the steps in this article rather than create a new application.
+    > Note: If you have an existing IoT Central application, you can use it to complete the steps in this article rather than create a new application.
 
 ### Create a new device
 
 In this section, you use the IoT Central application dashboard to create a new device. You will use the connection information for the newly created device to securely connect your physical device in a later section.
 
 To create a device:
-1. From the application dashboard, click "Devices" on the side navigation menu.
-1. Start "+ New" to bring up the "Create a new device" window.
-1. Leave Device template as "Unassigned".
+1. From the application dashboard, select **Devices** on the side navigation menu.
+1. Select **+ New** to bring up the **Create a new device** window.
+1. Leave Device template as **Unassigned**.
 1. Fill in the desired Device Name and Device ID.
 
     ![IoT Central create a device](media/iotcentralcreate-device.png)
 
-1. Select the "Create" button.
-1. The newly created device should appear in the "All devices" list.  Click on the device name to show details.
-1. Click "Connect" in the top right menu bar to show the connection information for use in the physical device in the next section.
+1. Select the **Create** button.
+1. The newly created device will appear in the **All devices** list.  Select on the device name to show details.
+1. Select **Connect** in the top right menu bar to display the connection information used to configure the device in the next section.
 
     ![IoT Central create a device](media/iotcentraldevice-connection-info.png)
 
-## Prepare the device
-
-Note the connection values for the following connection string parameters displayed in the IoT Central portal. You'll add these values to a configuration file in the next step:
+1. Note the connection values for the following connection string parameters displayed in **Connect** dialog. You'll add these values to a configuration file in the next step:
 
 > * `ID scope`
 > * `Device ID`
 > * `Primary key`
 
+## Prepare the device
 
 To connect the STM DevKit to Azure, you'll modify a configuration file for Wi-Fi and Azure IoT settings, rebuild the image, and flash the image to the device.
 
@@ -236,9 +234,18 @@ You can use the **Termite** utility to monitor communication and confirm that yo
 
 Keep Termite open to monitor device output in the following steps.
 
-## View device properties
+## Verify the device status
 
-> **Note**: Check the device's "Device template" is updated.  If unassigned, select the device and "Migrate" to the "Getting Started Guide" template in order to see the graphic visual data representation.
+To view the device status in IoT Central portal:
+1. From the application dashboard, select **Devices** on the side navigation menu.
+1. Check the **Device status** of the device is updated to **Provisioned**.
+1. Check the **Device template** of the device is updated to **Getting Stared Guid**.
+
+    ![IoT Central device status](media/azure-iot-central-device-view-status.png)
+
+> Note: If the **Device template** of the device remains as **Unassigned**, select the device and select **Migrate** to the "Getting Started Guide" template in order to see the graphic visual data representation.
+
+    ![IoT Central device template migrate](media/azure-iot-central-device-template-migrate.png)   
 
 ## View telemetry
 
@@ -246,7 +253,7 @@ With IoT Central, you can view the flow of telemetry from your device to the clo
 
 To view telemetry in IoT Central portal:
 
-1. From the application dashboard, click "Devices" on the side navigation menu.
+1. From the application dashboard, select **Devices** on the side navigation menu.
 1. Select the device from the device list.
 1. View the telemetry as the device sends messages to the cloud in the **Overview** tab.
 
@@ -261,18 +268,17 @@ You can also use IoT Central to call a direct method that you have implemented o
 To call a method in IoT Central portal:
 
 1. Select **Command** tab from the device page.
-1. Select **State** and click **Run**.  The LED light should turn on.
+1. Select **State** and select **Run**.  The LED light should turn on.
 
     ![IoT Central invoke method](media/azure-iot-central-invoke-method.png)
-1. Unselect **State** and click **Run**. The LED light should turn off.
+1. Unselect **State** and select **Run**. The LED light should turn off.
 
 ## View device information
 
 You can view the device information from IoT Central.
 
-1. Select **About** tab from the device page.
-
-   ![IoT Central device info](media/azure-iot-central-device-about.png)
+Select **About** tab from the device page.
+![IoT Central device info](media/azure-iot-central-device-about.png)
 
 ## Debugging
 
@@ -280,10 +286,16 @@ For debugging the application, see [Debugging with Visual Studio Code](../../doc
 
 ## Clean up resources
 
-If you no longer need the Azure resources created in this tutorial, you can delete them from the IoT Central portal.
+If you no longer need the Azure resources created in this tutorial, you can delete them from the IoT Central portal. Optionally, if you continue to another tutorial in this Getting Started guide, you can keep the resources you've already created and reuse them.
 
-If you continue to another tutorial in this Getting Started guide, you can keep the resources you've already created and reuse them.
+To keep the sample application but remove only specific devices:
+1. Select the **Devices** tab for your application.
+1. Select the device from the device list.
+1. Select **Delete**.
 
+To remove an entire sample application and all its devices and resources:
+1. Select **Administration** > **Your application**.
+1. Select **Delete**.
 
 ## Next Steps
 
