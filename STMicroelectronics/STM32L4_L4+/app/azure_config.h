@@ -50,8 +50,8 @@ typedef enum
 //    IOT_HUB_HOSTNAME:  The Azure IoT Hub hostname
 //    IOT_HUB_DEVICE_ID: The Azure IoT Hub device id
 // ----------------------------------------------------------------------------
-#define IOT_HUB_HOSTNAME  ""
-#define IOT_HUB_DEVICE_ID ""
+//#define IOT_HUB_HOSTNAME  ""
+//#define IOT_HUB_DEVICE_ID ""
 
 // ----------------------------------------------------------------------------
 // Azure IoT device SAS key

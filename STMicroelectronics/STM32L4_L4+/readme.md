@@ -21,8 +21,7 @@ You will complete the following tasks:
 
 * Install a set of embedded development tools for programming the STM DevKit in C
 * Build an image and flash it onto the STM DevKit
-* Use Azure CLI to create and manage an Azure IoT hub that the STM DevKit will securely connect to
-* Use Azure IoT Explorer to view properties, view device telemetry, and call direct commands
+* Use Azure IoT Central to create cloud components, view properties, view device telemetry, and call direct commands.
 
 ## Prerequisites
 
@@ -78,7 +77,7 @@ To install the tools:
 
 ### Create the IoT Central Application
 
-Azure IoT Central is used to both manage and monitor with your device.
+There are a few ways to mange and monitor your devices.  Azure IoT Central is used here because it provide the easiest way to connects your IoT devices to the cloud and offers centralized management to reconfigure and update your devices.
 
 To create a new application:
 1. From [Azure IoT Central portal](https://apps.azureiotcentral.com/), click "My apps" on the side navigation menu.
@@ -92,7 +91,7 @@ To create a new application:
 1. Click "Create".
 1. After IoT Central provisions the application, it redirects you automatically to the new application dashboard.
 
-You could reuse any exisiting instance of application which you have created previously.  You could optionally create applications using a standard plan.  Learn more about the free and standard pricing plans on the [IoT Central pricing page](https://azure.microsoft.com/en-us/pricing/details/iot-central/).
+If you have an existing IoT Central application, you can use it to complete the steps in this article rather than create a new application.
 
 ### Create a new device
 
@@ -110,7 +109,7 @@ To create a device:
 1. The newly created device should appear in the "All devices" list.  Click on the device name to show details.
 1. Click "Connect" in the top right menu bar to show the connection information for use in the physical device in the next section.
 
-**TODO** instruct the user to capture the required connection information. Given that this is used immediately in the next section, perhaps displaying the connection information should be directly part of the next section so the customer can just copy the information straight from central. We also should have a screenshot of the connection information screen.
+    ![IoT Central create a device](media/iotcentraldevice-connection-info.png)
 
 ## Prepare the device
 
@@ -241,11 +240,7 @@ Keep Termite open to monitor device output in the following steps.
 
 > **Note**: Check the device's "Device template" is updated.  If unassigned, select the device and "Migrate" to the "Getting Started Guide" template in order to see the graphic visual data representation.
 
-**TODO** Another option instead of the migrate, is to restart the device again which will then successfully assign the correct device template. This appears to be a function of Central being upable to assign a device to a device template that has only just been added to the central instance.
-
-**TODO** The "About" tab shows device information, cover that here.
-
-## View Telemetry
+## View telemetry
 
 With IoT Central, you can view the flow of telemetry from your device to the cloud.
 
@@ -271,6 +266,13 @@ To call a method in IoT Central portal:
     ![IoT Central invoke method](media/azure-iot-central-invoke-method.png)
 1. Unselect **State** and click **Run**. The LED light should turn off.
 
+## View device information
+
+You can view the device information from IoT Central.
+
+1. Select **About** tab from the device page.
+
+   ![IoT Central device info](media/azure-iot-central-device-about.png)
 
 ## Debugging
 
