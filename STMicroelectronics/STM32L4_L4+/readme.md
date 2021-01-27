@@ -19,8 +19,8 @@ In this tutorial you use Azure RTOS to connect either the STMicroelectronics [B-
 
 You will complete the following tasks:
 
-* Install a set of embedded development tools for programming the STM DevKit in C
-* Build an image and flash it onto the STM DevKit
+* Install a set of embedded development tools for programming the STM DevKit in C.
+* Build an image and flash it onto the STM DevKit.
 * Use Azure IoT Central to create cloud components, view properties, view device telemetry, and call direct commands.
 
 ## Prerequisites
@@ -57,7 +57,6 @@ The cloned repo contains a setup script that installs and configures the require
 > * [CMake](https://cmake.org): Build
 > * [ARM GCC](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm): Compile
 > * [Termite](https://www.compuphase.com/software_termite.htm): Monitor serial port output for connected devices
-manage Azure IoT resources
 
 To install the tools:
 
@@ -100,7 +99,7 @@ To create a device:
 1. From the application dashboard, select **Devices** on the side navigation menu.
 1. Select **+ New** to bring up the **Create a new device** window.
 1. Leave Device template as **Unassigned**.
-1. Fill in the desired Device Name and Device ID.
+1. Fill in the desired Device name and Device ID.
 
     ![IoT Central create a device](media/iotcentralcreate-device.png)
 
@@ -131,7 +130,7 @@ To connect the STM DevKit to Azure, you'll modify a configuration file for Wi-Fi
     |-------------|-----|
     |`WIFI_SSID` |{*Your Wi-Fi ssid*}|
     |`WIFI_PASSWORD` |{*Your Wi-Fi password*}|
-    |`WIFI_MODE` |{*One of the enumerated Wi-Fi mode values in the file.*}|
+    |`WIFI_MODE` |{*One of the enumerated Wi-Fi mode values in the file*}|
 
 1. Set the Azure IoT device information constants to the values that you saved after you created Azure resources.
 
@@ -229,7 +228,6 @@ You can use the **Termite** utility to monitor communication and confirm that yo
     Starting Main loop
     ```
 
-
     > **Important**: If the DNS client initialization fails and notifies you that the Wi-Fi firmware is out of date, you'll need to update the Wi-Fi module firmware. Download and install the [Inventek ISM 43362 Wi-Fi module firmware update](https://www.st.com/resource/en/utilities/inventek_fw_updater.zip). Then press the **Reset** button on the device to recheck your connection, and continue this tutorial.
 
 Keep Termite open to monitor device output in the following steps.
@@ -239,13 +237,13 @@ Keep Termite open to monitor device output in the following steps.
 To view the device status in IoT Central portal:
 1. From the application dashboard, select **Devices** on the side navigation menu.
 1. Check the **Device status** of the device is updated to **Provisioned**.
-1. Check the **Device template** of the device is updated to **Getting Stared Guid**.
+1. Check the **Device template** of the device has updated to **Getting Stared Guide**.
 
     ![IoT Central device status](media/azure-iot-central-device-view-status.png)
 
 > Note: If the **Device template** of the device remains as **Unassigned**, select the device and select **Migrate** to the "Getting Started Guide" template in order to see the graphic visual data representation.
 
-    ![IoT Central device template migrate](media/azure-iot-central-device-template-migrate.png)   
+![IoT Central device template migrate](media/azure-iot-central-device-template-migrate.png)
 
 ## View telemetry
 
@@ -259,11 +257,11 @@ To view telemetry in IoT Central portal:
 
     ![IoT Central device telemetry](media/azure-iot-central-device-telemetry.png)
 
-    Note: You can also monitor telemetry from the device by using the Termite terminal.
+> Note: You can also monitor telemetry from the device by using the Termite terminal.
 
 ## Call a direct method on the device
 
-You can also use IoT Central to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off. 
+You can also use IoT Central to call a direct method that you have implemented on your device. Direct methods have a name, and can optionally have a JSON payload, configurable connection, and method timeout. In this section, you call a method that enables you to turn an LED on or off.
 
 To call a method in IoT Central portal:
 
@@ -288,12 +286,12 @@ For debugging the application, see [Debugging with Visual Studio Code](../../doc
 
 If you no longer need the Azure resources created in this tutorial, you can delete them from the IoT Central portal. Optionally, if you continue to another tutorial in this Getting Started guide, you can keep the resources you've already created and reuse them.
 
-To keep the sample application but remove only specific devices:
+To keep the Azure IoT Central sample application but remove only specific devices:
 1. Select the **Devices** tab for your application.
 1. Select the device from the device list.
 1. Select **Delete**.
 
-To remove an entire sample application and all its devices and resources:
+To remove the entire Azure IoT Central sample application and all its devices and resources:
 1. Select **Administration** > **Your application**.
 1. Select **Delete**.
 
