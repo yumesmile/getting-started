@@ -161,7 +161,7 @@ In your console or in File Explorer, run the script *rebuild.bat* at the followi
 
 After the build completes, confirm that the binary files were created in the following path:
 
-> *getting-started\MXChip/AZ3166\build\app\mxchip_azure_iot.bin*
+> *getting-started\MXChip\AZ3166\build\app\mxchip_azure_iot.bin*
 
 ### Flash the image
 
